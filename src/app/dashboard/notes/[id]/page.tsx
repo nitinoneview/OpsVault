@@ -43,8 +43,7 @@ export default async function NoteViewPage({
             {note.title}
           </h1>
           <p className="text-sm text-gray-500 mb-6">
-            {/* @ts-expect-error - Supabase join type */}
-            {note.categories?.name || 'Uncategorized'} •{' '}
+                        {(Array.isArray(note.categories) ? note.categories[0]?.name : (note.categories as { name: string } | null)?.name) || 'Uncategorized'} •{' '}
             {new Date(note.created_at).toLocaleDateString()}
           </p>
 

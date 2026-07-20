@@ -47,8 +47,7 @@ export default async function IssueViewPage({
         <div className="bg-white rounded-lg shadow p-8">
           <h1 className="text-2xl font-bold mb-1">{issue.title}</h1>
           <p className="text-sm text-gray-500 mb-6">
-            {/* @ts-expect-error - Supabase join type */}
-            {issue.categories?.name || 'Uncategorized'} •{' '}
+            {Array.isArray(issue.categories) ? issue.categories[0]?.name : issue.categories?.name || 'Uncategorized'} •{' '}
             {new Date(issue.created_at).toLocaleDateString()}
           </p>
 

@@ -96,8 +96,7 @@ export default async function NotesListPage({
                     {note.title}
                   </h2>
                   <p className="text-sm text-gray-500 mt-1">
-                    {/* @ts-expect-error - Supabase join type */}
-                    {note.categories?.name || 'Uncategorized'}
+                                        {(Array.isArray(note.categories) ? note.categories[0]?.name : (note.categories as { name: string } | null)?.name) || 'Uncategorized'}
                   </p>
                 </div>
                 <span className="text-xs text-gray-400">

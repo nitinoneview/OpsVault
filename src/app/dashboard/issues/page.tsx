@@ -44,8 +44,7 @@ export default async function IssuesListPage() {
                 <div>
                   <h2 className="font-semibold text-lg">{issue.title}</h2>
                   <p className="text-sm text-gray-500 mt-1">
-                    {/* @ts-expect-error - Supabase join type */}
-                    {issue.categories?.name || 'Uncategorized'}
+                                        {(Array.isArray(issue.categories) ? issue.categories[0]?.name : (issue.categories as { name: string } | null)?.name) || 'Uncategorized'}
                   </p>
                 </div>
                 <span className="text-xs text-gray-400">
