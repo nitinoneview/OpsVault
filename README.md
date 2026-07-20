@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OpsVault 🔐
 
-## Getting Started
+A private, searchable personal technical knowledge base built for Production Support / DevOps engineers to organize study material, document production incidents, and prepare for interviews.
 
-First, run the development server:
+## 🎯 About
+
+OpsVault converts scattered technical notes (Linux, Shell Scripting, SQL, AWS, Networking, Production Support) into a single, structured, searchable web application — with role-based access control, admin approval workflow, and markdown-based note rendering with syntax highlighting.
+
+## ✨ Features
+
+- **Secure Authentication** — Email/password login with Supabase Auth
+- **Admin Approval Workflow** — New signups require admin approval before accessing content (RLS-enforced at the database level)
+- **Notes Management** — Full CRUD with categories, favorites, and importance flags
+- **Markdown Rendering** — Notes support markdown formatting with syntax-highlighted code blocks
+- **Full-Text Search** — Search notes by title or content
+- **Category Browsing** — Browse notes organized by topic (Linux, AWS, SQL, Networking, etc.)
+- **Interview Prep Mode** — Question/answer format with difficulty levels and revision status tracking, plus a "reveal answer" practice mode
+- **Production Issues Knowledge Base** — Structured incident documentation (Symptoms → Commands → Troubleshooting Steps → Root Cause → Resolution)
+- **Role-Based Access Control** — Admin vs. regular user permissions enforced via PostgreSQL Row Level Security
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16 (App Router), React, TypeScript, Tailwind CSS |
+| Backend | Next.js API routes / Server Components |
+| Database | PostgreSQL (via Supabase) |
+| Auth | Supabase Auth |
+| Markdown | react-markdown, remark-gfm, rehype-highlight |
+| Hosting | Vercel (planned) |
+
+## 🗄️ Database Schema
+
+- `profiles` — user roles and approval status
+- `categories` — topic categories (supports nesting via `parent_id`)
+- `notes` — core notes content
+- `tags` / `note_tags` — tagging system (many-to-many)
+- `interview_questions` — interview Q&A with status tracking
+- `production_issues` — structured incident/RCA records
+
+All tables are protected with PostgreSQL Row Level Security (RLS) policies — approved users can read content, only admins can create/edit/delete.
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18.18+
+- A free [Supabase](https://supabase.com) account
+
+### Installation
+
+```bash
+git clone https://github.com/nitinoneview/OpsVault.git
+cd OpsVault
+npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_publishable_key
+
+### Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📋 Roadmap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [ ] Favorites/Pinned quick-access dashboard sections
+- [ ] Email template library section
+- [ ] Deployment to Vercel
+- [ ] Dark mode
+- [ ] Image/diagram support in notes
 
-## Learn More
+## 👤 Author
 
-To learn more about Next.js, take a look at the following resources:
+**Nitin**
+Production Support Engineer | Linux · AWS · Shell Scripting · SQL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Built as a portfolio project to demonstrate full-stack development skills alongside production support expertise.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
+This project is for personal/portfolio use.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
