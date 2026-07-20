@@ -19,7 +19,7 @@ export default async function ProfilePage() {
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
 
-  const initial = (profile?.email || user.email || '?').charAt(0).toUpperCase()
+  const initial = (profile?.name || profile?.email || '?').charAt(0).toUpperCase()
   const joinDate = profile?.created_at
     ? new Date(profile.created_at).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -28,8 +28,16 @@ export default async function ProfilePage() {
       })
     : '-'
 
+  const details = [
+    { label: 'Full Name', value: profile?.name || '-' },
+    { label: 'Email', value: profile?.email || '-' },
+    { label: 'Phone', value: profile?.phone || '-' },
+    { label: 'Role', value: profile?.role, capitalize: true },
+    { label: 'Status', value: profile?.status, capitalize: true },
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 sm:p-8 transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 sm:p-6 transition-colors">
       <div className="max-w-md mx-auto">
         <Link href="/dashboard" className="text-purple-600 dark:text-purple-400 text-sm">
           ← Back to Dashboard
@@ -40,8 +48,8 @@ export default async function ProfilePage() {
             {initial}
           </div>
 
-          <h1 className="text-lg font-bold mt-4 text-gray-900 dark:text-gray-100 break-all">
-            {profile?.email}
+          <h1 className="text-lg font-bold mt-4 text-gray-900 dark:text-gray-100">
+            {profile?.name || profile?.email}
           </h1>
           <span className="inline-block mt-2 text-xs font-medium px-3 py-1 rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 capitalize">
             {profile?.role}
@@ -57,6 +65,18 @@ export default async function ProfilePage() {
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Member Since</p>
             </div>
           </div>
+        </div>
+
+        {/* Detailed info card */}
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm mt-3 divide-y divide-gray-100 dark:divide-gray-800">
+          {details.map((d) => (
+            <div key={d.label} className="flex justify-between items-center px-5 py-3.5">
+              <span className="text-sm text-gray-500 dark:text-gray-400">{d.label}</span>
+              <span className={"text-sm font-medium text-gray-900 dark:text-gray-100 " + (d.capitalize ? 'capitalize' : '')}>
+                {d.value}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

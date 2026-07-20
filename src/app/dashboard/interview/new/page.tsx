@@ -4,10 +4,10 @@ import QuestionForm from '../question-form'
 export default async function NewQuestionPage() {
   const supabase = await createClient()
 
-  const { data: categories } = await supabase
-    .from('categories')
+  const { data: topics } = await supabase
+    .from('interview_topics')
     .select('id, name')
-    .order('name')
+    .order('sort_order')
 
-  return <QuestionForm categories={categories || []} />
+  return <QuestionForm topics={topics || []} />
 }
