@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import ThemeToggle from '@/components/theme-toggle'
+import { Plus, Settings, LogOut, BookOpen, FolderTree, Target, AlertTriangle } from 'lucide-react'
 
 interface RecentNote {
   id: string
@@ -15,53 +16,17 @@ interface RecentNote {
 interface DashboardClientProps {
   isAdmin: boolean
   userEmail: string
-  totalNotes: number
-  totalCategories: number
   recentNotes: RecentNote[]
 }
 
 const features = [
-  {
-    href: '/dashboard/notes',
-    icon: '📚',
-    title: 'All Notes',
-    desc: 'View and manage all your notes',
-    bg: 'bg-blue-50',
-    iconBg: 'bg-blue-100',
-  },
-  {
-    href: '/dashboard/categories',
-    icon: '🗂️',
-    title: 'Browse by Category',
-    desc: 'Explore notes organized by topic',
-    bg: 'bg-orange-50',
-    iconBg: 'bg-orange-100',
-  },
-  {
-    href: '/dashboard/interview',
-    icon: '🎯',
-    title: 'Interview Prep',
-    desc: 'Practice Q&A with revision tracking',
-    bg: 'bg-purple-50',
-    iconBg: 'bg-purple-100',
-  },
-  {
-    href: '/dashboard/issues',
-    icon: '🚨',
-    title: 'Production Issues',
-    desc: 'Incident & RCA knowledge base',
-    bg: 'bg-red-50',
-    iconBg: 'bg-red-100',
-  },
+  { href: '/dashboard/notes', icon: BookOpen, title: 'All Notes', bg: 'bg-blue-50 dark:bg-blue-950/40', color: 'text-blue-600 dark:text-blue-400' },
+  { href: '/dashboard/categories', icon: FolderTree, title: 'Categories', bg: 'bg-orange-50 dark:bg-orange-950/40', color: 'text-orange-600 dark:text-orange-400' },
+  { href: '/dashboard/interview', icon: Target, title: 'Interview Prep', bg: 'bg-purple-50 dark:bg-purple-950/40', color: 'text-purple-600 dark:text-purple-400' },
+  { href: '/dashboard/issues', icon: AlertTriangle, title: 'Production Issues', bg: 'bg-red-50 dark:bg-red-950/40', color: 'text-red-600 dark:text-red-400' },
 ]
 
-export default function DashboardClient({
-  isAdmin,
-  userEmail,
-  totalNotes,
-  totalCategories,
-  recentNotes,
-}: DashboardClientProps) {
+export default function DashboardClient({ isAdmin, userEmail, recentNotes }: DashboardClientProps) {
   const router = useRouter()
 
   const handleLogout = async () => {
@@ -74,107 +39,98 @@ export default function DashboardClient({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="bg-gradient-to-br from-purple-600 to-pink-500 px-4 sm:px-6 pt-5 pb-4 rounded-b-2xl">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">OpsVault</h1>
-              <p className="text-blue-100 text-sm mt-1">Your personal technical knowledge base</p>
+              <h1 className="text-xl font-semibold text-white">OpsVault</h1>
+              <p className="text-xs text-white/80 mt-0.5">Personal knowledge base</p>
             </div>
-
-            <div className="flex flex-wrap gap-2 items-center">
+            <div className="flex gap-2 items-center">
               <ThemeToggle />
               <Link
                 href="/dashboard/profile"
-                className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center text-white text-sm font-bold"
+                className="w-9 h-9 rounded-full bg-white text-purple-700 flex items-center justify-center text-sm font-semibold"
                 title="Profile"
               >
                 {userEmail.charAt(0).toUpperCase()}
               </Link>
-              <Link
-                href="/dashboard/notes/new"
-                className="bg-white text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-semibold transition shadow-sm"
-              >
-                + Add Note
-              </Link>
-              {isAdmin && (
-                <Link
-                  href="/dashboard/admin"
-                  className="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition"
-                >
-                  Admin Panel
-                </Link>
-              )}
-              <Link
-                href="/dashboard/settings"
-                className="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition"
-              >
-                Settings
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium transition"
-              >
-                Logout
-              </button>
             </div>
+          </div>
+
+          <div className="flex gap-2 mt-4">
+            <Link
+              href="/dashboard/notes/new"
+              className="flex-1 bg-white text-purple-700 rounded-lg py-2 text-sm font-medium flex items-center justify-center gap-1.5 hover:opacity-90 transition"
+            >
+              <Plus size={16} /> Add Note
+            </Link>
+            {isAdmin && (
+              <Link
+                href="/dashboard/admin"
+                className="w-10 bg-white/20 rounded-lg flex items-center justify-center text-white hover:bg-white/30 transition"
+                title="Admin Panel"
+              >
+                <Settings size={17} />
+              </Link>
+            )}
+            <Link
+              href="/dashboard/settings"
+              className="w-10 bg-white/20 rounded-lg flex items-center justify-center text-white hover:bg-white/30 transition"
+              title="Settings"
+            >
+              <Settings size={17} />
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="w-10 bg-white/20 rounded-lg flex items-center justify-center text-white hover:bg-white/30 transition"
+              title="Logout"
+            >
+              <LogOut size={17} />
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-8 -mt-6">
-        {/* Stats cards */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
-          <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
-            <p className="text-xs sm:text-sm text-gray-500 font-medium">Total Notes</p>
-            <p className="text-3xl sm:text-4xl font-bold mt-1 text-blue-600">{totalNotes}</p>
-          </div>
-          <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
-            <p className="text-xs sm:text-sm text-gray-500 font-medium">Total Categories</p>
-            <p className="text-3xl sm:text-4xl font-bold mt-1 text-indigo-600">{totalCategories}</p>
-          </div>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-6 pb-10">
+        <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Quick Access</h2>
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          {features.map((f) => {
+            const Icon = f.icon
+            return (
+              <Link
+                key={f.href}
+                href={f.href}
+                className={f.bg + " rounded-xl p-4 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition"}
+              >
+                <Icon className={f.color} size={22} />
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-100 mt-2">{f.title}</p>
+              </Link>
+            )
+          })}
         </div>
 
-        {/* Feature cards */}
-        <h2 className="text-lg font-semibold text-gray-700 mb-3">Quick Access</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
-          {features.map((f) => (
-            <Link
-              key={f.href}
-              href={f.href}
-              className={f.bg + " rounded-xl p-5 hover:shadow-md transition border border-transparent hover:border-gray-200"}
-            >
-              <div className={f.iconBg + " w-10 h-10 rounded-lg flex items-center justify-center text-xl mb-3"}>
-                {f.icon}
-              </div>
-              <h3 className="font-semibold text-gray-800">{f.title}</h3>
-              <p className="text-sm text-gray-500 mt-1">{f.desc}</p>
-            </Link>
-          ))}
-        </div>
-
-        {/* Recently added notes */}
-        <div className="pb-10">
+        <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-700">Recently Added Notes</h2>
-            <Link href="/dashboard/notes" className="text-sm text-blue-600 hover:underline">
-              View all →
+            <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">Recently Added</h2>
+            <Link href="/dashboard/notes" className="text-xs text-purple-600 dark:text-purple-400 hover:underline">
+              View all
             </Link>
           </div>
           {recentNotes.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-sm p-6 text-center text-gray-400 border border-gray-100">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 text-center text-gray-400 dark:text-gray-500 border border-gray-100 dark:border-gray-800 text-sm">
               No notes yet. Create your first one!
             </div>
           ) : (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y">
+            <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
               {recentNotes.map((note) => (
                 <Link
                   key={note.id}
                   href={"/dashboard/notes/" + note.id}
-                  className="flex justify-between items-center gap-3 px-4 sm:px-5 py-4 hover:bg-gray-50 transition first:rounded-t-xl last:rounded-b-xl"
+                  className="flex justify-between items-center gap-3 px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition first:rounded-t-xl last:rounded-b-xl"
                 >
-                  <span className="font-medium text-gray-800 truncate">{note.title}</span>
-                  <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap">
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">{note.title}</span>
+                  <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-2 py-1 rounded-full whitespace-nowrap">
                     {note.categories?.[0]?.name || 'Uncategorized'}
                   </span>
                 </Link>

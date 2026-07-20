@@ -44,18 +44,6 @@ export default async function DashboardPage() {
     )
   }
 
-  // ---- Stats fetch karo ----
-
-  // Total notes count
-  const { count: totalNotes } = await supabase
-    .from('notes')
-    .select('*', { count: 'exact', head: true })
-
-  // Total categories count
-  const { count: totalCategories } = await supabase
-    .from('categories')
-    .select('*', { count: 'exact', head: true })
-
   // Recent 5 notes
   const { data: recentNotes } = await supabase
     .from('notes')
@@ -67,8 +55,6 @@ export default async function DashboardPage() {
     <DashboardClient
       isAdmin={profile?.role === 'admin'}
       userEmail={user.email || ''}
-      totalNotes={totalNotes || 0}
-      totalCategories={totalCategories || 0}
       recentNotes={recentNotes || []}
     />
   )
