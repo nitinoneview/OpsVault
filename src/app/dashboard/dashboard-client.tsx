@@ -23,23 +23,15 @@ const features = [
     href: '/dashboard/notes',
     icon: '📚',
     title: 'All Notes',
-    desc: 'Apne saare notes dekho',
+    desc: 'View and manage all your notes',
     bg: 'bg-blue-50',
     iconBg: 'bg-blue-100',
-  },
-  {
-    href: '/dashboard/notes/new',
-    icon: '➕',
-    title: 'Add New Note',
-    desc: 'Naya note likho',
-    bg: 'bg-green-50',
-    iconBg: 'bg-green-100',
   },
   {
     href: '/dashboard/categories',
     icon: '🗂️',
     title: 'Browse by Category',
-    desc: 'Category select karke dekho',
+    desc: 'Explore notes organized by topic',
     bg: 'bg-orange-50',
     iconBg: 'bg-orange-100',
   },
@@ -47,7 +39,7 @@ const features = [
     href: '/dashboard/interview',
     icon: '🎯',
     title: 'Interview Prep',
-    desc: 'Practice questions',
+    desc: 'Practice Q&A with revision tracking',
     bg: 'bg-purple-50',
     iconBg: 'bg-purple-100',
   },
@@ -55,7 +47,7 @@ const features = [
     href: '/dashboard/issues',
     icon: '🚨',
     title: 'Production Issues',
-    desc: 'RCA & troubleshooting log',
+    desc: 'Incident & RCA knowledge base',
     bg: 'bg-red-50',
     iconBg: 'bg-red-100',
   },
@@ -78,54 +70,63 @@ export default function DashboardClient({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top header banner */}
+      {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div className="max-w-5xl mx-auto px-8 py-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">OpsVault</h1>
-            <p className="text-blue-100 text-sm mt-1">Your personal technical knowledge base</p>
-          </div>
-          <div className="flex gap-3 items-center">
-            {isAdmin && (
+        <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold">OpsVault</h1>
+              <p className="text-blue-100 text-sm mt-1">Your personal technical knowledge base</p>
+            </div>
+
+            <div className="flex flex-wrap gap-2 items-center">
               <Link
-                href="/dashboard/admin"
-                className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md text-sm font-medium transition"
+                href="/dashboard/notes/new"
+                className="bg-white text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-semibold transition shadow-sm"
               >
-                Admin Panel
+                + Add Note
               </Link>
-            )}
-            <Link
-              href="/dashboard/settings"
-              className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md text-sm font-medium transition"
-            >
-              Settings
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-md text-sm font-medium transition"
-            >
-              Logout
-            </button>
+              {isAdmin && (
+                <Link
+                  href="/dashboard/admin"
+                  className="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition"
+                >
+                  Admin Panel
+                </Link>
+              )}
+              <Link
+                href="/dashboard/settings"
+                className="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition"
+              >
+                Settings
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium transition"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-8 -mt-6">
+      <div className="max-w-5xl mx-auto px-4 sm:px-8 -mt-6">
         {/* Stats cards */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <div className="bg-white shadow-md rounded-xl p-6 border border-gray-100">
-            <p className="text-sm text-gray-500 font-medium">Total Notes</p>
-            <p className="text-4xl font-bold mt-1 text-blue-600">{totalNotes}</p>
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
+          <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
+            <p className="text-xs sm:text-sm text-gray-500 font-medium">Total Notes</p>
+            <p className="text-3xl sm:text-4xl font-bold mt-1 text-blue-600">{totalNotes}</p>
           </div>
-          <div className="bg-white shadow-md rounded-xl p-6 border border-gray-100">
-            <p className="text-sm text-gray-500 font-medium">Total Categories</p>
-            <p className="text-4xl font-bold mt-1 text-indigo-600">{totalCategories}</p>
+          <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 border border-gray-100">
+            <p className="text-xs sm:text-sm text-gray-500 font-medium">Total Categories</p>
+            <p className="text-3xl sm:text-4xl font-bold mt-1 text-indigo-600">{totalCategories}</p>
           </div>
         </div>
 
         {/* Feature cards */}
         <h2 className="text-lg font-semibold text-gray-700 mb-3">Quick Access</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {features.map((f) => (
             <Link
               key={f.href}
@@ -143,10 +144,15 @@ export default function DashboardClient({
 
         {/* Recently added notes */}
         <div className="pb-10">
-          <h2 className="text-lg font-semibold text-gray-700 mb-3">Recently Added Notes</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold text-gray-700">Recently Added Notes</h2>
+            <Link href="/dashboard/notes" className="text-sm text-blue-600 hover:underline">
+              View all →
+            </Link>
+          </div>
           {recentNotes.length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm p-6 text-center text-gray-400 border border-gray-100">
-              Abhi tak koi note nahi hai.
+              No notes yet. Create your first one!
             </div>
           ) : (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y">
@@ -154,10 +160,10 @@ export default function DashboardClient({
                 <Link
                   key={note.id}
                   href={"/dashboard/notes/" + note.id}
-                  className="flex justify-between items-center px-5 py-4 hover:bg-gray-50 transition first:rounded-t-xl last:rounded-b-xl"
+                  className="flex justify-between items-center gap-3 px-4 sm:px-5 py-4 hover:bg-gray-50 transition first:rounded-t-xl last:rounded-b-xl"
                 >
-                  <span className="font-medium text-gray-800">{note.title}</span>
-                  <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
+                  <span className="font-medium text-gray-800 truncate">{note.title}</span>
+                  <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap">
                     {note.categories?.[0]?.name || 'Uncategorized'}
                   </span>
                 </Link>
