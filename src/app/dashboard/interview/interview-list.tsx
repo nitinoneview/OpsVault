@@ -12,7 +12,7 @@ interface Question {
   answer: string
   difficulty: string
   status: string
-  categories: { name: string } | null
+  categories: { name: string }[] | null
 }
 
 const statusColors: Record<string, string> = {
@@ -70,7 +70,7 @@ export default function InterviewList({ questions }: { questions: Question[] }) 
             </div>
 
             <p className="text-xs text-gray-400 mb-3">
-              {q.categories?.name || 'Uncategorized'}
+              {q.categories?.[0]?.name || 'Uncategorized'}
             </p>
 
             {isRevealed ? (
