@@ -66,6 +66,7 @@ export default async function DashboardPage() {
   return (
     <DashboardClient
       isAdmin={profile?.role === 'admin'}
+      userEmail={user.email || ''}
       totalNotes={totalNotes || 0}
       totalCategories={totalCategories || 0}
       recentNotes={recentNotes || []}

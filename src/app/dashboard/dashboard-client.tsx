@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import ThemeToggle from '@/components/theme-toggle'
 
 interface RecentNote {
   id: string
@@ -13,6 +14,7 @@ interface RecentNote {
 
 interface DashboardClientProps {
   isAdmin: boolean
+  userEmail: string
   totalNotes: number
   totalCategories: number
   recentNotes: RecentNote[]
@@ -55,6 +57,7 @@ const features = [
 
 export default function DashboardClient({
   isAdmin,
+  userEmail,
   totalNotes,
   totalCategories,
   recentNotes,
@@ -69,7 +72,7 @@ export default function DashboardClient({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-8">
@@ -80,6 +83,14 @@ export default function DashboardClient({
             </div>
 
             <div className="flex flex-wrap gap-2 items-center">
+              <ThemeToggle />
+              <Link
+                href="/dashboard/profile"
+                className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center text-white text-sm font-bold"
+                title="Profile"
+              >
+                {userEmail.charAt(0).toUpperCase()}
+              </Link>
               <Link
                 href="/dashboard/notes/new"
                 className="bg-white text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-semibold transition shadow-sm"

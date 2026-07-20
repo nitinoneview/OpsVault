@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import ThemeToggle from '@/components/theme-toggle'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -18,10 +19,7 @@ export default function LoginPage() {
     setLoading(true)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     setLoading(false)
 
@@ -35,54 +33,58 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">OpsVault Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 transition-colors">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+      <div className="w-full max-w-sm">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-8">
+          <h1 className="text-3xl font-bold text-center mb-1 bg-gradient-to-tr from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent">
+            OpsVault
+          </h1>
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
+            Sign in to your knowledge base
+          </p>
+
+          <form onSubmit={handleLogin} className="space-y-3">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border rounded px-3 py-2"
-              placeholder="you@example.com"
+              placeholder="Email"
+              className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full border rounded px-3 py-2"
-              placeholder="••••••••"
+              placeholder="Password"
+              className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
             />
-          </div>
 
-          {error && (
-            <p className="text-red-600 text-sm">{error}</p>
-          )}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-tr from-purple-600 via-pink-500 to-orange-400 text-white font-semibold py-2.5 rounded-lg hover:opacity-90 transition disabled:opacity-50"
+            >
+              {loading ? 'Logging in...' : 'Log In'}
+            </button>
+          </form>
+        </div>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-blue-600 hover:underline">
-            Sign up
-          </Link>
-        </p>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-4 mt-3 text-center">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Don&apos;t have an account?{' '}
+            <Link href="/signup" className="text-purple-600 dark:text-purple-400 font-semibold hover:underline">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   )

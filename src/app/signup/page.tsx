@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import ThemeToggle from '@/components/theme-toggle'
 
 export default function SignupPage() {
   const [email, setEmail] = useState('')
@@ -17,10 +18,7 @@ export default function SignupPage() {
     setLoading(true)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
+    const { error } = await supabase.auth.signUp({ email, password })
 
     setLoading(false)
 
@@ -34,14 +32,14 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
-          <h1 className="text-2xl font-bold mb-4">Account Created!</h1>
-          <p className="text-gray-600 mb-4">
-            Tumhara account ban gaya hai. Admin approval ke baad hi tum login karke notes dekh paoge.
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
+        <div className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-8 text-center">
+          <h1 className="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Account Created!</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Your account is pending admin approval. You&apos;ll be able to log in once approved.
           </p>
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login page pe jao
+          <Link href="/login" className="text-purple-600 dark:text-purple-400 font-semibold hover:underline text-sm">
+            Go to login
           </Link>
         </div>
       </div>
@@ -49,53 +47,59 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 transition-colors">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
 
-        <form onSubmit={handleSignup} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+      <div className="w-full max-w-sm">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-8">
+          <h1 className="text-3xl font-bold text-center mb-1 bg-gradient-to-tr from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent">
+            OpsVault
+          </h1>
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
+            Create your account
+          </p>
+
+          <form onSubmit={handleSignup} className="space-y-3">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border rounded px-3 py-2"
-              placeholder="you@example.com"
+              placeholder="Email"
+              className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full border rounded px-3 py-2"
-              placeholder="••••••••"
+              placeholder="Password"
+              className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
             />
-          </div>
 
-          {error && <p className="text-red-600 text-sm">{error}</p>}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? 'Creating account...' : 'Sign Up'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-tr from-purple-600 via-pink-500 to-orange-400 text-white font-semibold py-2.5 rounded-lg hover:opacity-90 transition disabled:opacity-50"
+            >
+              {loading ? 'Creating account...' : 'Sign Up'}
+            </button>
+          </form>
+        </div>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login
-          </Link>
-        </p>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-4 mt-3 text-center">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Already have an account?{' '}
+            <Link href="/login" className="text-purple-600 dark:text-purple-400 font-semibold hover:underline">
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   )
