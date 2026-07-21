@@ -27,6 +27,7 @@ export default function QuestionForm({
 }) {
   const searchParams = useSearchParams()
   const preselectedTopic = searchParams.get('topic') || ''
+  const projectId = searchParams.get('project') || null
 
   const [question, setQuestion] = useState(existing?.question || '')
   const [answer, setAnswer] = useState(existing?.answer || '')
@@ -72,6 +73,7 @@ export default function QuestionForm({
         question,
         answer,
         topic_id: topicId || null,
+        project_id: projectId,
         difficulty,
         user_id: user.id,
       })
@@ -83,7 +85,7 @@ export default function QuestionForm({
       }
     }
 
-    router.push(topicId ? "/dashboard/interview/topic/" + topicId : '/dashboard/interview')
+    router.push(projectId ? "/dashboard/projects/" + projectId : (topicId ? "/dashboard/interview/topic/" + topicId : '/dashboard/interview'))
   }
 
   return (

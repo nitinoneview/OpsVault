@@ -4,13 +4,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import ThemeToggle from '@/components/theme-toggle'
-import { Plus, Settings, LogOut, BookOpen, FolderTree, Target, AlertTriangle } from 'lucide-react'
+import { Plus, Settings, LogOut, BookOpen, FolderTree, Target, FolderKanban } from 'lucide-react'
 
 interface RecentNote {
   id: string
   title: string
   created_at: string
-  categories: { name: string } | null
+  categories: { name: string }[] | null
 }
 
 interface DashboardClientProps {
@@ -23,7 +23,7 @@ const features = [
   { href: '/dashboard/notes', icon: BookOpen, title: 'All Notes', bg: 'bg-blue-50 dark:bg-blue-950/40', color: 'text-blue-600 dark:text-blue-400' },
   { href: '/dashboard/categories', icon: FolderTree, title: 'Categories', bg: 'bg-orange-50 dark:bg-orange-950/40', color: 'text-orange-600 dark:text-orange-400' },
   { href: '/dashboard/interview', icon: Target, title: 'Interview Prep', bg: 'bg-purple-50 dark:bg-purple-950/40', color: 'text-purple-600 dark:text-purple-400' },
-  { href: '/dashboard/issues', icon: AlertTriangle, title: 'Production Issues', bg: 'bg-red-50 dark:bg-red-950/40', color: 'text-red-600 dark:text-red-400' },
+  { href: '/dashboard/projects', icon: FolderKanban, title: 'Projects', bg: 'bg-red-50 dark:bg-red-950/40', color: 'text-red-600 dark:text-red-400' },
 ]
 
 export default function DashboardClient({ isAdmin, userEmail, recentNotes }: DashboardClientProps) {
@@ -131,7 +131,7 @@ export default function DashboardClient({ isAdmin, userEmail, recentNotes }: Das
                 >
                   <span className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">{note.title}</span>
                   <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-2 py-1 rounded-full whitespace-nowrap">
-                    {note.categories?.name || 'Uncategorized'}
+                    {note.categories?.[0]?.name || 'Uncategorized'}
                   </span>
                 </Link>
               ))}

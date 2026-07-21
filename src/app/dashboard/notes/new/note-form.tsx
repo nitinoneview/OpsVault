@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
@@ -11,6 +11,8 @@ interface Category {
 }
 
 export default function NoteForm({ categories }: { categories: Category[] }) {
+  const searchParams = useSearchParams()
+  const projectId = searchParams.get('project') || null
   const [title, setTitle] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [content, setContent] = useState('')
@@ -38,6 +40,7 @@ export default function NoteForm({ categories }: { categories: Category[] }) {
       title,
       content,
       category_id: categoryId || null,
+      project_id: projectId,
       is_favorite: isFavorite,
       is_important: isImportant,
       user_id: user.id,
@@ -50,7 +53,7 @@ export default function NoteForm({ categories }: { categories: Category[] }) {
       return
     }
 
-    router.push('/dashboard/notes')
+    router.push(projectId ? '/dashboard/projects/' + projectId : '/dashboard/notes')
   }
 
   return (
