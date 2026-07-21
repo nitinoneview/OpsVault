@@ -10,7 +10,7 @@ interface RecentNote {
   id: string
   title: string
   created_at: string
-  categories: { name: string }[] | null
+  categories: { name: string } | null
 }
 
 interface DashboardClientProps {
@@ -131,7 +131,7 @@ export default function DashboardClient({ isAdmin, userEmail, recentNotes }: Das
                 >
                   <span className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">{note.title}</span>
                   <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-2 py-1 rounded-full whitespace-nowrap">
-                    {note.categories?.[0]?.name || 'Uncategorized'}
+                    {note.categories?.name || 'Uncategorized'}
                   </span>
                 </Link>
               ))}
