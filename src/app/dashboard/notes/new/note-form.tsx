@@ -13,6 +13,7 @@ interface Category {
 export default function NoteForm({ categories }: { categories: Category[] }) {
   const searchParams = useSearchParams()
   const projectId = searchParams.get('project') || null
+  const topicId = searchParams.get('topic') || null
   const [title, setTitle] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [content, setContent] = useState('')
@@ -41,6 +42,7 @@ export default function NoteForm({ categories }: { categories: Category[] }) {
       content,
       category_id: categoryId || null,
       project_id: projectId,
+      topic_id: topicId,
       is_favorite: isFavorite,
       is_important: isImportant,
       user_id: user.id,
@@ -53,7 +55,7 @@ export default function NoteForm({ categories }: { categories: Category[] }) {
       return
     }
 
-    router.push(projectId ? '/dashboard/projects/' + projectId : '/dashboard/notes')
+    router.push(projectId ? '/dashboard/projects/' + projectId : (topicId ? '/dashboard/interview/topic/' + topicId : '/dashboard/notes'))
   }
 
   return (

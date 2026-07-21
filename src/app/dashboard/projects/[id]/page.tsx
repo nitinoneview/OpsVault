@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import ProjectTabs from './project-tabs'
+import EntityTabs from '@/components/entity-tabs'
 
 export default async function ProjectDetailPage({
   params,
@@ -22,7 +22,7 @@ export default async function ProjectDetailPage({
 
   const { data: notes } = await supabase
     .from('notes')
-    .select('id, title, content, is_favorite, is_important, created_at')
+    .select('id, title, is_favorite, is_important')
     .eq('project_id', id)
     .order('created_at', { ascending: false })
 
@@ -33,11 +33,14 @@ export default async function ProjectDetailPage({
     .order('created_at', { ascending: false })
 
   return (
-    <ProjectTabs
-      projectId={id}
-      projectName={project.name}
+    <EntityTabs
+      backHref="/dashboard/projects"
+      backLabel="Back to Projects"
+      title={project.name}
       notes={notes || []}
       questions={questions || []}
+      addNoteHref={"/dashboard/notes/new?project=" + id}
+      addQuestionHref={"/dashboard/interview/new?project=" + id}
     />
   )
 }
