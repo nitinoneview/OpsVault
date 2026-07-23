@@ -19,10 +19,10 @@ export default async function DashboardPage() {
 
   if (profile?.status === 'pending') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
-        <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-md">
-          <h1 className="text-2xl font-bold mb-4">Waiting for Approval</h1>
-          <p className="text-gray-600">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 p-8 transition-colors">
+        <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md text-center max-w-md border border-gray-100 dark:border-gray-800">
+          <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Waiting for Approval</h1>
+          <p className="text-gray-600 dark:text-gray-400">
             Tumhara account admin approval ka wait kar raha hai.
             Approve hote hi tum notes access kar paoge.
           </p>
@@ -33,10 +33,10 @@ export default async function DashboardPage() {
 
   if (profile?.status === 'rejected') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
-        <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-md">
-          <h1 className="text-2xl font-bold mb-4 text-red-600">Access Denied</h1>
-          <p className="text-gray-600">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 p-8 transition-colors">
+        <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md text-center max-w-md border border-gray-100 dark:border-gray-800">
+          <h1 className="text-2xl font-bold mb-4 text-red-600 dark:text-red-400">Access Denied</h1>
+          <p className="text-gray-600 dark:text-gray-400">
             Tumhara access request reject ho gaya hai.
           </p>
         </div>
