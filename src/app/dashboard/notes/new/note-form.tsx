@@ -10,12 +10,18 @@ interface Category {
   name: string
 }
 
-export default function NoteForm({ categories }: { categories: Category[] }) {
+interface Topic {
+  id: string
+  name: string
+}
+
+export default function NoteForm({ categories, topics }: { categories: Category[]; topics: Topic[] }) {
   const searchParams = useSearchParams()
   const projectId = searchParams.get('project') || null
-  const topicId = searchParams.get('topic') || null
+  const preselectedTopic = searchParams.get('topic') || ''
   const [title, setTitle] = useState('')
   const [categoryId, setCategoryId] = useState('')
+  const [topicId, setTopicId] = useState(preselectedTopic)
   const [content, setContent] = useState('')
   const [isFavorite, setIsFavorite] = useState(false)
   const [isImportant, setIsImportant] = useState(false)
@@ -42,7 +48,7 @@ export default function NoteForm({ categories }: { categories: Category[] }) {
       content,
       category_id: categoryId || null,
       project_id: projectId,
-      topic_id: topicId,
+      topic_id: topicId || null,
       is_favorite: isFavorite,
       is_important: isImportant,
       user_id: user.id,
@@ -81,20 +87,38 @@ export default function NoteForm({ categories }: { categories: Category[] }) {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Category</label>
-              <select
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full border rounded px-3 py-2"
-              >
-                <option value="">-- Select category --</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Category</label>
+                <select
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                >
+                  <option value="">-- Select category --</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Interview Topic</label>
+                <select
+                  value={topicId}
+                  onChange={(e) => setTopicId(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                >
+                  <option value="">-- Select --</option>
+                  {topics.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div>

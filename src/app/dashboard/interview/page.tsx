@@ -11,11 +11,15 @@ export default async function InterviewTopicsPage() {
 
   const topicsWithCount = await Promise.all(
     (topics || []).map(async (t) => {
-      const { count } = await supabase
+      const { count: questionsCount } = await supabase
         .from('interview_questions')
         .select('*', { count: 'exact', head: true })
         .eq('topic_id', t.id)
-      return { ...t, count: count || 0 }
+      const { count: notesCount } = await supabase
+        .from('notes')
+        .select('*', { count: 'exact', head: true })
+        .eq('topic_id', t.id)
+      return { ...t, questionsCount: questionsCount || 0, notesCount: notesCount || 0 }
     })
   )
 
@@ -42,7 +46,7 @@ export default async function InterviewTopicsPage() {
                   {i + 1}. {t.name}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                  {t.count} question{t.count !== 1 ? 's' : ''}
+                  {t.notesCount} notes · {t.questionsCount} questions
                 </p>
               </div>
               <span className="text-gray-400 dark:text-gray-600">›</span>

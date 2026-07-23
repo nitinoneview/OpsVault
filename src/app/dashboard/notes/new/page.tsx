@@ -9,5 +9,10 @@ export default async function NewNotePage() {
     .select('id, name')
     .order('name')
 
-  return <NoteForm categories={categories || []} />
+  const { data: topics } = await supabase
+    .from('interview_topics')
+    .select('id, name')
+    .order('sort_order')
+
+  return <NoteForm categories={categories || []} topics={topics || []} />
 }

@@ -25,5 +25,10 @@ export default async function EditNotePage({
     .select('id, name')
     .order('name')
 
-  return <EditNoteForm note={note} categories={categories || []} />
+  const { data: topics } = await supabase
+    .from('interview_topics')
+    .select('id, name')
+    .order('sort_order')
+
+  return <EditNoteForm note={note} categories={categories || []} topics={topics || []} />
 }
